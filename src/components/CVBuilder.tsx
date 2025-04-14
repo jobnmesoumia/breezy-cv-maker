@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -68,11 +67,54 @@ const CVBuilder = () => {
     setCVData((prev) => ({ ...prev, ...newData }));
   };
 
-  const handleDownload = () => {
-    toast({
-      title: "Coming soon!",
-      description: "PDF download functionality will be available soon.",
-    });
+  const handleDownload = async () => {
+    try {
+      const cvElement = document.querySelector('.a4-page');
+      if (!cvElement) {
+        toast({
+          title: language === 'en' ? "Error" : "Erreur",
+          description: language === 'en' 
+            ? "Could not generate PDF. Please try again." 
+            : "Impossible de générer le PDF. Veuillez réessayer.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { jsPDF } = await import('jspdf');
+      const { default: html2canvas } = await import('html2canvas');
+      
+      const canvas = await html2canvas(cvElement as HTMLElement);
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      
+      const pdf = new jsPDF({
+        format: 'a4',
+        unit: 'mm'
+      });
+      
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('cv.pdf');
+
+      toast({
+        title: language === 'en' ? "Success!" : "Succès !",
+        description: language === 'en' 
+          ? "Your CV has been downloaded" 
+          : "Votre CV a été téléchargé",
+      });
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      toast({
+        title: language === 'en' ? "Error" : "Erreur",
+        description: language === 'en' 
+          ? "Could not generate PDF. Please try again." 
+          : "Impossible de générer le PDF. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    }
   };
 
   const toggleLanguage = () => {

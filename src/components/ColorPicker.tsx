@@ -13,11 +13,18 @@ const colors = [
   '#dc2626', // Red
   '#7c3aed', // Purple
   '#ea580c', // Orange
+  '#9b87f5', // Primary Purple
+  '#7E69AB', // Secondary Purple
+  '#D946EF', // Magenta Pink
+  '#0EA5E9', // Ocean Blue
+  '#F97316', // Bright Orange
+  '#8E9196', // Neutral Gray
+  '#000000', // Black
 ];
 
 const ColorPicker: React.FC<ColorPickerProps> = ({ color, onChange }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {colors.map((c) => (
         <Button
           key={c}
