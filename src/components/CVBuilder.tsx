@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,6 +36,11 @@ export type CVData = {
   location: string;
   photo: string;
   summary: string;
+  socialLinks: {
+    linkedin?: string;
+    github?: string;
+    website?: string;
+  };
   experience: WorkExperience[];
   education: Education[];
   skills: Skill[];
@@ -52,6 +56,11 @@ const initialData: CVData = {
   location: '',
   photo: '',
   summary: '',
+  socialLinks: {
+    linkedin: '',
+    github: '',
+    website: ''
+  },
   experience: [],
   education: [],
   skills: [],
@@ -85,9 +94,8 @@ const CVBuilder = () => {
       const { jsPDF } = await import('jspdf');
       const { default: html2canvas } = await import('html2canvas');
       
-      // Improved quality settings
       const canvas = await html2canvas(cvElement as HTMLElement, {
-        scale: 2, // Increase scale for better quality
+        scale: 2,
         useCORS: true,
         logging: false,
         allowTaint: true,

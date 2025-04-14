@@ -15,14 +15,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect,
       name: language === 'en' ? 'Modern' : 'Moderne',
       description: language === 'en' ? 'Clean and contemporary design' : 'Design épuré et contemporain',
       fontFamily: 'font-poppins',
-      previewBg: 'bg-gradient-to-br from-blue-50 to-indigo-50'
+      previewBg: 'bg-gradient-to-br from-gray-50 to-white border-l-2 border-blue-500'
     },
     { 
       id: 'classic' as const,
       name: language === 'en' ? 'Classic' : 'Classique',
       description: language === 'en' ? 'Traditional and elegant' : 'Traditionnel et élégant',
       fontFamily: 'font-playfair',
-      previewBg: 'bg-gradient-to-br from-gray-50 to-stone-50'
+      previewBg: 'bg-white border-b-2 border-gray-800'
     },
     { 
       id: 'minimal' as const,
@@ -36,7 +36,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect,
       name: language === 'en' ? 'Professional' : 'Professionnel',
       description: language === 'en' ? 'Business-oriented layout' : 'Mise en page professionnelle',
       fontFamily: 'font-montserrat',
-      previewBg: 'bg-gradient-to-br from-slate-50 to-gray-50'
+      previewBg: 'bg-slate-50 shadow-sm rounded-lg'
     },
     { 
       id: 'creative' as const,
@@ -52,8 +52,10 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect,
       {templates.map((template) => (
         <Card
           key={template.id}
-          className={`p-4 cursor-pointer hover:border-primary transition-colors ${
-            selected === template.id ? 'border-primary border-2' : 'border-gray-200'
+          className={`p-4 cursor-pointer transition-all duration-200 hover:scale-105 ${
+            selected === template.id 
+              ? 'ring-2 ring-primary shadow-lg' 
+              : 'hover:shadow-md'
           }`}
           onClick={() => onSelect(template.id)}
         >

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,6 +31,17 @@ const CVForm: React.FC<CVFormProps> = ({ data, onChange, language }) => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSocialLinkChange = (field: keyof CVData['socialLinks']) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    onChange({
+      socialLinks: {
+        ...data.socialLinks,
+        [field]: e.target.value
+      }
+    });
   };
 
   return (
@@ -150,6 +160,44 @@ const CVForm: React.FC<CVFormProps> = ({ data, onChange, language }) => {
             }
             className="h-32"
           />
+        </div>
+
+        <div className="space-y-4 border-t pt-4 mt-4">
+          <h3 className="font-medium">
+            {language === 'en' ? 'Social Links' : 'Liens Sociaux'}
+          </h3>
+          <div className="space-y-2">
+            <Label htmlFor="linkedin">LinkedIn</Label>
+            <Input
+              id="linkedin"
+              type="url"
+              value={data.socialLinks.linkedin}
+              onChange={handleSocialLinkChange('linkedin')}
+              placeholder="https://linkedin.com/in/username"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="github">GitHub</Label>
+            <Input
+              id="github"
+              type="url"
+              value={data.socialLinks.github}
+              onChange={handleSocialLinkChange('github')}
+              placeholder="https://github.com/username"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="website">
+              {language === 'en' ? 'Personal Website' : 'Site Personnel'}
+            </Label>
+            <Input
+              id="website"
+              type="url"
+              value={data.socialLinks.website}
+              onChange={handleSocialLinkChange('website')}
+              placeholder="https://example.com"
+            />
+          </div>
         </div>
       </TabsContent>
 

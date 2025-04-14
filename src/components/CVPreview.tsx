@@ -8,56 +8,127 @@ interface CVPreviewProps {
 }
 
 const CVPreview: React.FC<CVPreviewProps> = ({ data }) => {
-  const applyTemplate = () => {
+  const getTemplateStyles = () => {
+    const baseStyles = {
+      background: '',
+      headerClass: '',
+      sectionClass: '',
+      titleClass: ''
+    };
+
     switch (data.template) {
-      case 'classic':
-        return 'font-playfair';
-      case 'minimal':
-        return 'font-inter';
-      case 'professional':
-        return 'font-montserrat';
-      case 'creative':
-        return 'font-opensans';
       case 'modern':
+        return {
+          ...baseStyles,
+          background: 'bg-gradient-to-br from-gray-50 to-white',
+          headerClass: 'border-b border-gray-200 pb-6',
+          sectionClass: 'border-l-2 pl-4',
+          titleClass: 'tracking-tight'
+        };
+      case 'classic':
+        return {
+          ...baseStyles,
+          background: 'bg-white',
+          headerClass: 'border-b-2 border-gray-800 pb-6',
+          sectionClass: 'border-b border-gray-200 pb-4',
+          titleClass: 'font-serif'
+        };
+      case 'minimal':
+        return {
+          ...baseStyles,
+          background: 'bg-white',
+          headerClass: 'pb-6',
+          sectionClass: 'py-4',
+          titleClass: 'font-light tracking-wide'
+        };
+      case 'professional':
+        return {
+          ...baseStyles,
+          background: 'bg-slate-50',
+          headerClass: 'bg-white shadow-sm p-6 rounded-lg',
+          sectionClass: 'bg-white shadow-sm p-4 rounded-lg mb-4',
+          titleClass: 'font-semibold'
+        };
+      case 'creative':
+        return {
+          ...baseStyles,
+          background: 'bg-gradient-to-br from-purple-50 to-pink-50',
+          headerClass: 'rounded-lg p-6 bg-white/80 backdrop-blur-sm',
+          sectionClass: 'rounded-lg p-4 bg-white/80 backdrop-blur-sm mb-4',
+          titleClass: 'font-bold tracking-wide'
+        };
       default:
-        return 'font-poppins';
+        return baseStyles;
     }
   };
 
+  const styles = getTemplateStyles();
+
   return (
-    <div className={`w-full a4-page bg-white shadow-sm ${applyTemplate()}`} style={{ minHeight: '29.7cm' }}>
-      <div className="p-8">
-        <header className="mb-8 flex items-start gap-6">
-          {data.photo && (
-            <img
-              src={data.photo}
-              alt={data.fullName}
-              className="w-32 h-32 rounded-full object-cover border-4"
-              style={{ borderColor: data.accentColor }}
-            />
-          )}
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-2" style={{ color: data.accentColor }}>
-              {data.fullName || 'Your Name'}
-            </h1>
-            <h2 className="text-xl text-gray-600 mb-4">
-              {data.jobTitle || 'Professional Title'}
-            </h2>
-            
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-              {data.email && (
-                <div className="flex items-center gap-1">
-                  {data.email}
-                </div>
-              )}
-              {data.phone && (
-                <div className="flex items-center gap-1">
-                  {data.phone}
-                </div>
-              )}
-              {data.location && (
-                <div className="flex items-center gap-1">
-                  {data.location}
+    <div className={`w-full a4-page ${styles.background}`} style={{ minHeight: '29.7cm' }}>
+      <div className="p-8 h-full">
+        <header className={`mb-8 ${styles.headerClass}`}>
+          <div className="flex items-start gap-6">
+            {data.photo && (
+              <img
+                src={data.photo}
+                alt={data.fullName}
+                className="w-32 h-32 rounded-full object-cover"
+                style={{ borderColor: data.accentColor }}
+              />
+            )}
+            <div className="flex-1">
+              <h1 className={`text-3xl ${styles.titleClass} mb-2`} style={{ color: data.accentColor }}>
+                {data.fullName || 'Your Name'}
+              </h1>
+              <h2 className="text-xl text-gray-600 mb-4">
+                {data.jobTitle || 'Professional Title'}
+              </h2>
+              
+              <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                {data.email && (
+                  <span>{data.email}</span>
+                )}
+                {data.phone && (
+                  <span>{data.phone}</span>
+                )}
+                {data.location && (
+                  <span>{data.location}</span>
+                )}
+              </div>
+
+              {(data.socialLinks.linkedin || data.socialLinks.github || data.socialLinks.website) && (
+                <div className="flex gap-4 mt-4 text-sm">
+                  {data.socialLinks.linkedin && (
+                    <a
+                      href={data.socialLinks.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      LinkedIn
+                    </a>
+                  )}
+                  {data.socialLinks.github && (
+                    <a
+                      href={data.socialLinks.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-700 hover:underline"
+                    >
+                      GitHub
+                    </a>
+                  )}
+                  {data.socialLinks.website && (
+                    <a
+                      href={data.socialLinks.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-600 hover:underline"
+                    >
+                      Website
+                    </a>
+                  )}
                 </div>
               )}
             </div>
@@ -65,8 +136,8 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data }) => {
         </header>
 
         {data.summary && (
-          <section className="mb-6">
-            <h3 className="text-lg font-semibold mb-2" style={{ color: data.accentColor }}>
+          <section className={`mb-6 ${styles.sectionClass}`}>
+            <h3 className={`text-lg font-semibold mb-2 ${styles.titleClass}`} style={{ color: data.accentColor }}>
               Professional Summary
             </h3>
             <p className="text-gray-700">{data.summary}</p>
@@ -74,8 +145,8 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data }) => {
         )}
 
         {data.experience.length > 0 && (
-          <section className="mb-6">
-            <h3 className="text-lg font-semibold mb-4" style={{ color: data.accentColor }}>
+          <section className={`mb-6 ${styles.sectionClass}`}>
+            <h3 className={`text-lg font-semibold mb-4 ${styles.titleClass}`} style={{ color: data.accentColor }}>
               Work Experience
             </h3>
             {data.experience.map((exp, index) => (
