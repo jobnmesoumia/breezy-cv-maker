@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -84,19 +85,29 @@ const CVBuilder = () => {
       const { jsPDF } = await import('jspdf');
       const { default: html2canvas } = await import('html2canvas');
       
-      const canvas = await html2canvas(cvElement as HTMLElement);
+      // Improved quality settings
+      const canvas = await html2canvas(cvElement as HTMLElement, {
+        scale: 2, // Increase scale for better quality
+        useCORS: true,
+        logging: false,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      });
+      
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
       
       const pdf = new jsPDF({
         format: 'a4',
-        unit: 'mm'
+        unit: 'mm',
+        orientation: 'portrait',
+        compress: true
       });
       
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       
-      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
       pdf.save('cv.pdf');
 
       toast({

@@ -11,41 +11,41 @@ interface TemplateSelectorProps {
 const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect, language }) => {
   const templates = [
     { 
-      id: 'modern',
+      id: 'modern' as const,
       name: language === 'en' ? 'Modern' : 'Moderne',
       description: language === 'en' ? 'Clean and contemporary design' : 'Design épuré et contemporain',
       fontFamily: 'font-poppins',
       previewBg: 'bg-gradient-to-br from-blue-50 to-indigo-50'
     },
     { 
-      id: 'classic',
+      id: 'classic' as const,
       name: language === 'en' ? 'Classic' : 'Classique',
       description: language === 'en' ? 'Traditional and elegant' : 'Traditionnel et élégant',
       fontFamily: 'font-playfair',
       previewBg: 'bg-gradient-to-br from-gray-50 to-stone-50'
     },
     { 
-      id: 'minimal',
+      id: 'minimal' as const,
       name: language === 'en' ? 'Minimal' : 'Minimaliste',
       description: language === 'en' ? 'Simple and focused' : 'Simple et concentré',
       fontFamily: 'font-inter',
       previewBg: 'bg-white'
     },
     { 
-      id: 'professional',
+      id: 'professional' as const,
       name: language === 'en' ? 'Professional' : 'Professionnel',
       description: language === 'en' ? 'Business-oriented layout' : 'Mise en page professionnelle',
       fontFamily: 'font-montserrat',
       previewBg: 'bg-gradient-to-br from-slate-50 to-gray-50'
     },
     { 
-      id: 'creative',
+      id: 'creative' as const,
       name: language === 'en' ? 'Creative' : 'Créatif',
       description: language === 'en' ? 'Bold and innovative design' : 'Design audacieux et innovant',
       fontFamily: 'font-opensans',
       previewBg: 'bg-gradient-to-br from-purple-50 to-pink-50'
     }
-  ] as const;
+  ];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
