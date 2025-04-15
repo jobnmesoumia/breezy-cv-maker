@@ -3,8 +3,8 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 
 interface TemplateSelectorProps {
-  selected: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative';
-  onSelect: (template: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative') => void;
+  selected: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative' | 'executive' | 'elegant' | 'tech';
+  onSelect: (template: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative' | 'executive' | 'elegant' | 'tech') => void;
   language: 'en' | 'fr';
 }
 
@@ -15,7 +15,28 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect,
       name: language === 'en' ? 'Modern' : 'Moderne',
       description: language === 'en' ? 'Clean and contemporary design' : 'Design épuré et contemporain',
       fontFamily: 'font-poppins',
-      previewBg: 'bg-gradient-to-br from-gray-50 to-white border-l-4 border-blue-500'
+      previewBg: 'bg-gradient-to-br from-blue-50 to-white border-l-4 border-blue-500'
+    },
+    { 
+      id: 'executive' as const,
+      name: language === 'en' ? 'Executive' : 'Exécutif',
+      description: language === 'en' ? 'Sophisticated and bold' : 'Sophistiqué et audacieux',
+      fontFamily: 'font-montserrat',
+      previewBg: 'bg-gradient-to-br from-slate-100 to-white border-b-2 border-t-2 border-slate-800'
+    },
+    { 
+      id: 'elegant' as const,
+      name: language === 'en' ? 'Elegant' : 'Élégant',
+      description: language === 'en' ? 'Refined and tasteful' : 'Raffiné et élégant',
+      fontFamily: 'font-playfair',
+      previewBg: 'bg-gradient-to-br from-amber-50 to-white border-double border-4 border-amber-800'
+    },
+    { 
+      id: 'tech' as const,
+      name: language === 'en' ? 'Tech' : 'Technologique',
+      description: language === 'en' ? 'Modern tech aesthetic' : 'Esthétique technologique moderne',
+      fontFamily: 'font-roboto',
+      previewBg: 'bg-gradient-to-br from-cyan-50 to-white border-r-4 border-cyan-500'
     },
     { 
       id: 'classic' as const,
@@ -35,20 +56,20 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect,
       id: 'professional' as const,
       name: language === 'en' ? 'Professional' : 'Professionnel',
       description: language === 'en' ? 'Business-oriented layout' : 'Mise en page professionnelle',
-      fontFamily: 'font-sans',
+      fontFamily: 'font-opensans',
       previewBg: 'bg-slate-50 shadow-md rounded-lg'
     },
     { 
       id: 'creative' as const,
       name: language === 'en' ? 'Creative' : 'Créatif',
       description: language === 'en' ? 'Bold and innovative design' : 'Design audacieux et innovant',
-      fontFamily: 'font-sans',
+      fontFamily: 'font-lato',
       previewBg: 'bg-gradient-to-br from-purple-50 to-pink-50 border-t-4 border-purple-400'
     }
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {templates.map((template) => (
         <Card
           key={template.id}
