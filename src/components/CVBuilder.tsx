@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -94,16 +95,24 @@ const CVBuilder = () => {
       const { jsPDF } = await import('jspdf');
       const { default: html2canvas } = await import('html2canvas');
       
+      // Use higher scaling factor for better resolution
       const canvas = await html2canvas(cvElement as HTMLElement, {
-        scale: 2,
+        scale: 3, // Increased from default 2 to improve quality
         useCORS: true,
         logging: false,
         allowTaint: true,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        windowWidth: 794, // A4 width in pixels at 96 DPI
+        windowHeight: 1123, // A4 height in pixels at 96 DPI
+        x: 0,
+        y: 0,
+        width: cvElement.scrollWidth,
+        height: cvElement.scrollHeight,
       });
       
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
       
+      // Create PDF with A4 dimensions
       const pdf = new jsPDF({
         format: 'a4',
         unit: 'mm',
@@ -111,6 +120,7 @@ const CVBuilder = () => {
         compress: true
       });
       
+      // Calculate dimensions to maintain aspect ratio
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;

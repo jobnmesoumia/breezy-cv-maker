@@ -65,7 +65,7 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data }) => {
   const styles = getTemplateStyles();
 
   return (
-    <div className={`w-full a4-page ${styles.background}`} style={{ minHeight: '29.7cm' }}>
+    <div className={`w-full a4-page ${styles.background}`} style={{ minHeight: '29.7cm', width: '21cm' }}>
       <div className="p-8 h-full">
         <header className={`mb-8 ${styles.headerClass}`}>
           <div className="flex items-start gap-6">
@@ -98,36 +98,21 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data }) => {
               </div>
 
               {(data.socialLinks.linkedin || data.socialLinks.github || data.socialLinks.website) && (
-                <div className="flex gap-4 mt-4 text-sm">
+                <div className="flex flex-col gap-1 mt-4 text-sm">
                   {data.socialLinks.linkedin && (
-                    <a
-                      href={data.socialLinks.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
-                      LinkedIn
-                    </a>
+                    <div className="overflow-hidden text-ellipsis">
+                      <span className="text-blue-600">{data.socialLinks.linkedin}</span>
+                    </div>
                   )}
                   {data.socialLinks.github && (
-                    <a
-                      href={data.socialLinks.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-700 hover:underline"
-                    >
-                      GitHub
-                    </a>
+                    <div className="overflow-hidden text-ellipsis">
+                      <span className="text-gray-700">{data.socialLinks.github}</span>
+                    </div>
                   )}
                   {data.socialLinks.website && (
-                    <a
-                      href={data.socialLinks.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-purple-600 hover:underline"
-                    >
-                      Website
-                    </a>
+                    <div className="overflow-hidden text-ellipsis">
+                      <span className="text-purple-600">{data.socialLinks.website}</span>
+                    </div>
                   )}
                 </div>
               )}
