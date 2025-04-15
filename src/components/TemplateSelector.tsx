@@ -73,14 +73,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selected, onSelect,
       {templates.map((template) => (
         <Card
           key={template.id}
-          className={`p-4 cursor-pointer transition-all duration-200 hover:scale-105 ${
+          className={`p-4 cursor-pointer transition-all duration-200 hover:scale-105 overflow-hidden ${
             selected === template.id 
               ? 'ring-2 ring-primary shadow-lg transform scale-105' 
               : 'hover:shadow-md'
           }`}
           onClick={() => onSelect(template.id)}
         >
-          <div className={`aspect-[210/297] ${template.previewBg} mb-2 overflow-hidden rounded`}>
+          <div className={`aspect-[210/297] ${template.previewBg} mb-2 overflow-hidden rounded shadow-sm`}>
             <div className={`w-full h-full p-4 ${template.fontFamily}`}>
               <div className="w-full h-3 bg-gray-300 rounded mb-2" />
               <div className="w-2/3 h-3 bg-gray-300 rounded mb-4" />

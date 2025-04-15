@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -46,7 +47,7 @@ export type CVData = {
   experience: WorkExperience[];
   education: Education[];
   skills: Skill[];
-  template: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative';
+  template: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative' | 'executive' | 'elegant' | 'tech';
   accentColor: string;
 };
 
@@ -94,6 +95,15 @@ const CVBuilder = () => {
         return;
       }
 
+      // Temporarily adjust the CV element for better capture
+      const originalStyle = cvElement.getAttribute('style') || '';
+      const originalHeight = (cvElement as HTMLElement).style.minHeight;
+      const originalOverflow = document.body.style.overflow;
+      
+      // Ensure full content is visible during capture
+      (cvElement as HTMLElement).style.minHeight = 'auto';
+      document.body.style.overflow = 'visible';
+
       switch (format) {
         case 'pdf':
           const { jsPDF } = await import('jspdf');
@@ -106,7 +116,10 @@ const CVBuilder = () => {
             allowTaint: true,
             backgroundColor: '#ffffff',
             width: cvElement.scrollWidth,
-            height: cvElement.scrollHeight
+            height: cvElement.scrollHeight,
+            windowHeight: cvElement.scrollHeight + 100,
+            windowWidth: cvElement.scrollWidth + 100,
+            scrollY: -window.scrollY // Capture the entire element regardless of scroll position
           });
           
           const imgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -151,10 +164,17 @@ const CVBuilder = () => {
           break;
 
         case 'image':
-          const imageCanvas = await html2canvas(cvElement as HTMLElement, {
+          const { default: html2canvasImage } = await import('html2canvas');
+          
+          const imageCanvas = await html2canvasImage(cvElement as HTMLElement, {
             scale: 4,
             useCORS: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            windowHeight: cvElement.scrollHeight + 100,
+            windowWidth: cvElement.scrollWidth + 100,
+            scrollY: -window.scrollY, // Capture the entire element regardless of scroll position
+            logging: true,
+            allowTaint: true
           });
           
           const link2 = document.createElement('a');
@@ -163,6 +183,10 @@ const CVBuilder = () => {
           link2.click();
           break;
       }
+
+      // Restore original styles after capture
+      (cvElement as HTMLElement).style.minHeight = originalHeight;
+      document.body.style.overflow = originalOverflow;
 
       toast({
         title: language === 'en' ? "Success!" : "Succès !",
